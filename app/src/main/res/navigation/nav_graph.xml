@@ -10,6 +10,15 @@
         android:name="br.com.pedro.moviesm2u.ui.movies.MoviesFragment"
         android:label="Filmes"
         tools:layout="@layout/movies_fragment">
+        <action
+            android:id="@+id/action_moviesFragment_to_movieDetailFragment"
+            app:destination="@id/movieDetailFragment"/>
     </fragment>
+
+    <fragment
+        android:id="@+id/movieDetailFragment"
+        android:name="br.com.pedro.moviesm2u.ui.movieDetail.MovieDetailFragment"
+        android:label="Filme"
+        tools:layout="@layout/movie_detail_fragment"/>
 
 </navigation>

@@ -11,5 +11,5 @@ class MoviesViewModel @Inject constructor(
 ) : ViewModel() {
 
     val movies = repository.getMovies()
-//    val moviesFav = repository.getMoviesFav()
+    val moviesFav = repository.getMoviesFav()
 }

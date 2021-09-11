@@ -17,7 +17,7 @@ fun <T, A> performGetOperation(
 
         val responseStatus = networkCall.invoke()
         if (responseStatus.status == Resource.Status.SUCCESS) {
-            saveCallResult(responseStatus.data!!)
+            responseStatus.data?.let { saveCallResult(it) }
 
         } else if (responseStatus.status == Resource.Status.ERROR) {
             emitSource(source)

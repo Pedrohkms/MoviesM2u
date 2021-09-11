@@ -10,12 +10,14 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import br.com.pedro.moviesm2u.R
 import br.com.pedro.moviesm2u.databinding.MoviesFragmentBinding
 import br.com.pedro.moviesm2u.utils.Resource
+import com.google.android.material.tabs.TabLayout
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class MoviesFragment : Fragment(){
+class MoviesFragment : Fragment(), MoviesAdapter.MovieItemListener {
 
     private lateinit var binding: MoviesFragmentBinding
     private val viewModel: MoviesViewModel by viewModels()
@@ -36,7 +38,7 @@ class MoviesFragment : Fragment(){
     }
 
     private fun setupRecyclerView() {
-        adapter = MoviesAdapter()
+        adapter = MoviesAdapter(this)
         binding.moviesRV.layoutManager = GridLayoutManager(requireContext(), 3)
         binding.moviesRV.adapter = adapter
     }
@@ -56,5 +58,44 @@ class MoviesFragment : Fragment(){
                     binding.progressBar.visibility = View.VISIBLE
             }
         })
+        binding.tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+            override fun onTabSelected(tab: TabLayout.Tab?) {
+                tabFav()
+            }
+
+            override fun onTabUnselected(tab: TabLayout.Tab?) {
+                return
+            }
+
+            override fun onTabReselected(tab: TabLayout.Tab?) {
+                tabFav()
+            }
+
+        })
+
+    }
+
+    private fun tabFav() {
+        when (binding.tabLayout.selectedTabPosition) {
+            0 -> {
+                viewModel.movies.observe(viewLifecycleOwner, {
+                    binding.progressBar.visibility = View.GONE
+                    if (!it.data.isNullOrEmpty()) adapter.setItems(it.data)
+                })
+            }
+            1 -> {
+                viewModel.moviesFav.observe(viewLifecycleOwner, {
+                    binding.progressBar.visibility = View.GONE
+                    if (!it.data.isNullOrEmpty()) adapter.setItems(it.data)
+                })
+            }
+        }
+    }
+
+    override fun onClickedMovie(movieId: Int) {
+        findNavController().navigate(
+            R.id.action_moviesFragment_to_movieDetailFragment,
+            bundleOf("id" to movieId)
+        )
     }
 }

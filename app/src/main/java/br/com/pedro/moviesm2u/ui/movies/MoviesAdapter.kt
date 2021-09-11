@@ -3,14 +3,19 @@ package br.com.pedro.moviesm2u.ui.movies
 import android.annotation.SuppressLint
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import br.com.pedro.moviesm2u.data.entities.Movie
 import br.com.pedro.moviesm2u.databinding.ItemMovieBinding
 import com.bumptech.glide.Glide
 
-class MoviesAdapter() :
+class MoviesAdapter(private val listener: MovieItemListener) :
     RecyclerView.Adapter<MovieViewHolder>() {
+
+    interface MovieItemListener {
+        fun onClickedMovie(movieId: Int)
+    }
 
     private val items = ArrayList<Movie>()
 
@@ -23,7 +28,7 @@ class MoviesAdapter() :
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewHolder {
         val binding: ItemMovieBinding =
             ItemMovieBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return MovieViewHolder(binding)
+        return MovieViewHolder(binding, listener)
     }
 
     override fun getItemCount(): Int = items.size
@@ -33,10 +38,16 @@ class MoviesAdapter() :
 }
 
 class MovieViewHolder(
-    private val itemBinding: ItemMovieBinding
-) : RecyclerView.ViewHolder(itemBinding.root) {
+    private val itemBinding: ItemMovieBinding,
+    private val listener: MoviesAdapter.MovieItemListener
+) : RecyclerView.ViewHolder(itemBinding.root),
+    View.OnClickListener {
 
     private lateinit var movie: Movie
+
+    init {
+        itemBinding.root.setOnClickListener(this)
+    }
 
     @SuppressLint("SetTextI18n")
     fun bind(item: Movie) {
@@ -48,5 +59,9 @@ class MovieViewHolder(
             .into(itemBinding.itemMoviePoster)
         Log.d("imagem", "https://image.tmdb.org/t/p/w342${item.poster_path}")
         Log.d("imagem", imagePoster.toString())
+    }
+
+    override fun onClick(v: View?) {
+        listener.onClickedMovie(movie.id)
     }
 }
