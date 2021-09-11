@@ -1,5 +1,6 @@
 package br.com.pedro.moviesm2u.di
 
+import android.content.Context
 import br.com.pedro.moviesm2u.data.local.AppDatabase
 import br.com.pedro.moviesm2u.data.local.MovieDao
 import br.com.pedro.moviesm2u.data.remote.MovieRemoteDataSource
@@ -10,6 +11,7 @@ import com.google.gson.GsonBuilder
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -35,6 +37,10 @@ object AppModule {
     @Singleton
     @Provides
     fun provideMovieRemoteDataSource(movieService: MovieService) = MovieRemoteDataSource(movieService)
+
+    @Singleton
+    @Provides
+    fun provideDatabase(@ApplicationContext appContext: Context) = AppDatabase.getDatabase(appContext)
 
     @Singleton
     @Provides

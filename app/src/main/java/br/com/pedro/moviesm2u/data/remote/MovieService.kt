@@ -2,6 +2,7 @@ package br.com.pedro.moviesm2u.data.remote
 
 import br.com.pedro.moviesm2u.data.LocalData
 import br.com.pedro.moviesm2u.data.entities.Movie
+import br.com.pedro.moviesm2u.data.entities.MovieList
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -13,7 +14,7 @@ interface MovieService {
         @Query("api_key") apiKey: String = LocalData().API_KEY,
         @Query("language") language : String = LocalData().language,
         @Query("region") region : String = LocalData().region
-    ): Response<List<Movie>>
+    ): Response<MovieList>
 
     @GET("movie/{id}")
     suspend fun getMovie(

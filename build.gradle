@@ -3,6 +3,7 @@ buildscript {
     ext.hiltVersion='2.37'
     ext.retrofitVersion='2.9.0'
     ext.roomVersion='2.3.0'
+    ext.glideVersion='4.12.0'
     repositories {
         google()
         mavenCentral()

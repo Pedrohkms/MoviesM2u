@@ -26,5 +26,4 @@ interface MovieDao {
 
     @Query("UPDATE movie SET isFavorited = :isFav WHERE id = :id")
     suspend fun updateFav(isFav : Boolean, id: Int)
-
 }

@@ -19,14 +19,14 @@ class MovieRepository @Inject constructor(
     fun getMovies() = performGetOperation(
         databaseQuery = { localDataSource.getAllMovies() },
         networkCall = { remoteDataSource.getMovies() },
-        saveCallResult = { localDataSource.insertAll(it) }
+        saveCallResult = { localDataSource.insertAll(it.results) }
     )
 
-    fun getMoviesFav() = performGetOperation(
-        databaseQuery = { localDataSource.getMoviesFav() },
-        networkCall = { remoteDataSource.getMovies() },
-        saveCallResult = { localDataSource.insertAll(it) }
-    )
+//    fun getMoviesFav() = performGetOperation(
+//        databaseQuery = { localDataSource.getMoviesFav() },
+//        networkCall = { remoteDataSource.getMovies() },
+//        saveCallResult = { localDataSource.insertAll(it) }
+//    )
 
 //    fun getMoviesFav() = localDataSource.getMoviesFav()
 }
