@@ -9,6 +9,7 @@ class MovieRemoteDataSource @Inject constructor(
 
     suspend fun getMovies() =
         getResult { movieService.getAllMovies(LocalData().API_KEY, LocalData().language, LocalData().region) }
+
     suspend fun getMovie(id: Int) =
         getResult { movieService.getMovie(id, LocalData().API_KEY, LocalData().language, LocalData().region) }
 
